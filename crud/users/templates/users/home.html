@@ -1,4 +1,10 @@
 {% extends 'users/base.html' %}
 {% block content %}
+    {% if messages %}
+        {% for sms in messages %}
+            <small>{{ sms }}</small>
+        {% endfor %}
+    {% endif %}
+    <br/>
     <h1>WELCOME!</h1>
 {% endblock %}

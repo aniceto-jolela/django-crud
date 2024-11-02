@@ -10,9 +10,20 @@
 </head>
 <body>
     <div>
-        <a href="{% url 'home' %}">Home</a> |
-        <a href="{% url 'about' %}">About</a> |
-        <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'home' %}">Home</a> |
+            <a href="{% url 'about' %}">About</a> |
+        {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}">Profile</a> |
+            <a href="#">User</a> |
+             <form method="POST" action="{% url 'logout' %}">
+                 {% csrf_token %}
+                <button type="submit">Sign Out</button>
+            </form>
+        {% else %}
+            <a href="{% url 'register' %}">Sign Up</a> |
+            <a href="{% url 'login' %}">Sign In</a>
+        {% endif %}
+
         {% block content %}{% endblock %}
     </div>
 </body>
