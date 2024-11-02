@@ -1,2 +1,3 @@
-# django-crud
+# Django authentication crud
+
 A simple user crud.
