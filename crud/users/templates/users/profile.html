@@ -1,20 +1,9 @@
 {% extends 'users/base.html' %}
-{% extends 'users/update.html' %}
 {% block content %}
 <h2>Profile</h2>
+<img width=200  src={{user.profile.image.url}}  />
 <h4>{{ user.username }}</h4>
 <h5>{{ user.email }}</h5>
 <br/>
-<div>
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset>
-            <legend>Update</legend>
-            {{ form.as_p }}
-        </fieldset>
-        <button type="submit">Update</button>
-    </form>
-</div>
-
 
 {% endblock %}

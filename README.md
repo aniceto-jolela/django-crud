@@ -10,3 +10,7 @@ A simple user crud.
 ```shell
   python -m pip install Pillow
 ```
+or
+```shell
+  pip install Pillow
+```
