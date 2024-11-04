@@ -1,9 +1,26 @@
 {% extends 'users/base.html' %}
 {% block content %}
 <h2>Profile</h2>
-<img width=200  src={{user.profile.image.url}}  />
+<img  src={{user.profile.image.url}}  />
 <h4>{{ user.username }}</h4>
 <h5>{{ user.email }}</h5>
 <br/>
+    {% if messages %}
+        {% for sms in messages %}
+            <small>{{sms}}</small>
+        {% endfor %}
+        <br/>
+    {% endif %}
+<div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Update</legend>
+            {{u_form.as_p}}
+            {{f_form.as_p}}
+        </fieldset>
+        <button>Update</button>
+    </form>
+</div>
 
 {% endblock %}
