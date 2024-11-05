@@ -1,0 +1,14 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<h4>{{ user.username }}</h4>
+
+<div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+            {{form.as_p}}
+        </fieldset>
+        <button type="submit">Update</button>
+    </form>
+</div>
+{% endblock %}

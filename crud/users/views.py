@@ -2,14 +2,21 @@ from django.shortcuts import render, redirect
 from .forms import UserRegister, UserUpdate, UserFile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.generic import (
+    UpdateView,
+    DetailView
+)
+from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
 
 
 def home(request):
-    return render(request, 'users/home.html', {'title':'Home'})
+    return render(request, 'users/home.html', {'title': 'Home'})
 
 
 def about(request):
-    return render(request, 'users/about.html',{'title':'About'})
+    return render(request, 'users/about.html', {'title': 'About'})
 
 
 def register(request):
@@ -46,3 +53,28 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
+def users(request):
+    context = {'users_': User.objects.all()}
+    return render(request, 'users/user_table.html', context)
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
+    # <app>/<model>_<viewtype>.html
+    model = User
+    template_name = 'users/user_form.html'
+    fields = ['username', 'email']
+    success_url = reverse_lazy('users') # Redirect to a profile page or wherever appropriate
+
+    def form_valid(self, form):
+        form.instance.username = form.cleaned_data.get('username')
+        form.instance.email = form.cleaned_data.get('email')
+        return super().form_valid(form)
+
+    def test_func(self):
+        # Ensure that only the user can update their own profile
+        user = self.get_object()
+        return self.request.user == user
+
+
+class UserDetailView(DetailView):
+    model = User

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from django.urls import reverse
 
 
 class Profile(models.Model):
@@ -18,3 +19,7 @@ class Profile(models.Model):
             img.thumbnail(resize)
             img.save(self.image.path)
             return 'has been updated correctly (300x300)!'
+
+    # update redirect to
+    def get_absolute_url(self):
+        return reverse( 'users', kwargs={'pk':self.pk})

@@ -1,0 +1,18 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<h2>User Table</h2>
+
+<h4>{{ user.username }}</h4>
+<button>Add</button>
+    <ol>
+        {% for u in users_ %}
+        <li>
+            <img width="40" src={{u.profile.image.url}}> |
+            <a href="{% url 'update' u.id %}">{{ u.username }}</a> |
+            {{ u.email }} |
+            <a href="#" >Delete</a>
+        </li>
+    {% endfor %}
+    </ol>
+
+{% endblock %}
