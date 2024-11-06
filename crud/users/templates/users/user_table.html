@@ -7,7 +7,7 @@
     <ol>
         {% for u in users_ %}
         <li>
-            <img width="40" src={{u.profile.image.url}}> |
+            <a href="{% url 'detail' u.id %}"><img width="40" src={{u.profile.image.url}}></a> |
             <a href="{% url 'update' u.id %}">{{ u.username }}</a> |
             {{ u.email }} |
             <a href="#" >Delete</a>
