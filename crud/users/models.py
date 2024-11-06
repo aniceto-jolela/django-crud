@@ -22,4 +22,4 @@ class Profile(models.Model):
 
     # update redirect to
     def get_absolute_url(self):
-        return reverse( 'users', kwargs={'pk':self.pk})
+        return reverse( 'users', kwargs={'pk': self.pk})

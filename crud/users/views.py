@@ -58,7 +58,7 @@ def users(request):
     return render(request, 'users/user_table.html', context)
 
 
-class UserUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
+class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     # <app>/<model>_<viewtype>.html
     model = User
     template_name = 'users/user_form.html'

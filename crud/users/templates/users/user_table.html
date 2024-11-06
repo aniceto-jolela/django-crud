@@ -3,7 +3,7 @@
 <h2>User Table</h2>
 
 <h4>{{ user.username }}</h4>
-<button>Add</button>
+<a href="{% url 'register' %}" >Add</a>
     <ol>
         {% for u in users_ %}
         <li>
