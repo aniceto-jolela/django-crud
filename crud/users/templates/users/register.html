@@ -1,10 +1,10 @@
 {% extends 'users/base.html' %}
 {% block content %}
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <fieldset>
         <legend> Register </legend>
-        {{ form.as_p }}
+        {{ u_form.as_p }}
     </fieldset>
     <button type="submit" >Create Account</button>
 </form>

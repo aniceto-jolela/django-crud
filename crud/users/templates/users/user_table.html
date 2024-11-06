@@ -10,7 +10,7 @@
             <a href="{% url 'detail' u.id %}"><img width="40" src={{u.profile.image.url}}></a> |
             <a href="{% url 'update' u.id %}">{{ u.username }}</a> |
             {{ u.email }} |
-            <a href="#" >Delete</a>
+            <a href="{% url 'delete' u.id %}" >Delete</a>
         </li>
     {% endfor %}
     </ol>

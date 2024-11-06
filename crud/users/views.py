@@ -3,8 +3,10 @@ from .forms import UserRegister, UserUpdate, UserFile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic import (
+    ListView,
     UpdateView,
-    DetailView
+    DetailView,
+    DeleteView
 )
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -23,13 +25,16 @@ def register(request):
     if request.method == 'POST':
         form = UserRegister(request.POST)
         if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, f'{user} created successful.')
+            user = form.save()
+            messages.success(request, f'{user.username} created successfully.')
             return redirect('home')
     else:
         form = UserRegister()
-    return render(request, 'users/register.html', {'form': form})
+    context = {
+        'u_form': form,
+        'title': 'Register'
+    }
+    return render(request, 'users/register.html', context)
 
 
 @login_required
@@ -53,9 +58,10 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
-def users(request):
-    context = {'users_': User.objects.all()}
-    return render(request, 'users/user_table.html', context)
+class UserListView(LoginRequiredMixin, ListView):
+    model = User
+    context_object_name = 'users_'
+    template_name = 'users/user_table.html'
 
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -79,3 +85,13 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'users/user_detail.html'
+
+
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = User
+    template_name = 'users/user_confirm_delete.html'
+    success_url = reverse_lazy('users')
+
+    def test_func(self):
+        user = self.get_object()
+        return self.request.user == user

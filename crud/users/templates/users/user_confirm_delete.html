@@ -1,0 +1,12 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<div>
+<h2>Delete</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <h6>{{ user.username }}, are you sure?</h6>
+        <button type="submit">Delete</button>
+        <a href="{% url 'detail' object.id %}" >Cansel</a>
+    </form>
+</div>
+{% endblock %}
