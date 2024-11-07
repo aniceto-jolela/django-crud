@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegister, UserUpdate, UserFile
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import (
     ListView,
     UpdateView,
@@ -11,6 +11,7 @@ from django.views.generic import (
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+from django.core.exceptions import PermissionDenied
 
 
 def home(request):
@@ -68,8 +69,12 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     # <app>/<model>_<viewtype>.html
     model = User
     template_name = 'users/user_form.html'
-    fields = ['username', 'email']
+    fields = ['username', 'email', 'first_name', 'last_name', 'is_active', 'is_staff']
     success_url = reverse_lazy('users') # Redirect to a profile page or wherever appropriate
+
+    def get_object(self, queryset=None):
+        user_id = self.kwargs.get('pk')
+        return get_object_or_404(User, pk=user_id)
 
     def form_valid(self, form):
         form.instance.username = form.cleaned_data.get('username')
@@ -77,6 +82,8 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def test_func(self):
+        if self.request.user.is_superuser:
+            return True
         # Ensure that only the user can update their own profile
         user = self.get_object()
         return self.request.user == user
