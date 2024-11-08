@@ -4,12 +4,20 @@
 
 <h4>{{ user.username }}</h4>
 <a href="{% url 'register' %}" >Add</a>
+ {% if messages %}
+        {% for sms in messages %}
+            <small>{{sms}}</small>
+        {% endfor %}
+        <br/>
+    {% endif %}
+<br/>
     <ol>
         {% for u in users_ %}
         <li>
             <a href="{% url 'detail' u.id %}"><img width="40" src={{u.profile.image.url}}></a> |
             <a href="{% url 'update' u.id %}">{{ u.username }}</a> |
             {{ u.email }} |
+            <a href="{% url 'update_pic' u.id %}">img</a> |
             <a href="{% url 'delete' u.id %}" >Delete</a>
         </li>
     {% endfor %}

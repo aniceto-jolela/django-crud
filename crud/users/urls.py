@@ -16,5 +16,6 @@ urlpatterns = [
     path('user/<int:pk>/update/', UserUpdateView.as_view(), name='update'),
     path('user/new/', views.register, name='register'),
     path('user/<int:pk>/detail/', UserDetailView.as_view(), name='detail'),
-    path('user/<int:pk>/delete/', UserDeleteView.as_view(), name='delete')
+    path('user/<int:pk>/delete/', UserDeleteView.as_view(), name='delete'),
+    path('user/<int:pk>/update_pic/', views.update_pic, name='update_pic')
 ]

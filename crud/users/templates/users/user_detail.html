@@ -4,5 +4,8 @@
 <img width="50"  src={{user.profile.image.url}}  />
 <h4>{{ user.username }}</h4>
 <h5>{{ user.email }}</h5>
+<h5>Active: {{ user.is_active }}</h5>
+<h5>Staff status: {{ user.is_staff }}</h5>
+<h5>Superuser status: {{ user.is_superuser }}</h5>
 
 {% endblock %}

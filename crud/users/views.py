@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UserRegister, UserUpdate, UserFile
+from .forms import UserRegister, UserUpdate, UserFile, Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import (
@@ -11,7 +11,6 @@ from django.views.generic import (
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.core.exceptions import PermissionDenied
 
 
 def home(request):
@@ -59,6 +58,24 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
+def update_pic(request, pk):
+    picture_p = get_object_or_404(Profile, user__id=pk)
+
+    if request.method == 'POST':
+        form = UserFile(request.POST, request.FILES, instance=picture_p)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Picture has been updated successfully!')
+            return redirect('users')
+    else:
+        form = UserFile(instance=picture_p)
+    context = {
+        'title': 'Update_pic',
+        'form': form
+    }
+    return render(request, 'users/update_pic.html', context)
+
+
 class UserListView(LoginRequiredMixin, ListView):
     model = User
     context_object_name = 'users_'
@@ -69,12 +86,22 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     # <app>/<model>_<viewtype>.html
     model = User
     template_name = 'users/user_form.html'
-    fields = ['username', 'email', 'first_name', 'last_name', 'is_active', 'is_staff']
+    fields = ['username', 'email', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser']
     success_url = reverse_lazy('users') # Redirect to a profile page or wherever appropriate
 
     def get_object(self, queryset=None):
         user_id = self.kwargs.get('pk')
         return get_object_or_404(User, pk=user_id)
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        # Restrict fields for non - superusers
+        if not self.request.user.is_superuser:
+            # Remove sensitive fields from the  form for non-superusers
+            form.fields.pop('is_active', None)
+            form.fields.pop('is_staff', None)
+            form.fields.pop('is_superuser', None)
+        return form
 
     def form_valid(self, form):
         form.instance.username = form.cleaned_data.get('username')
@@ -94,11 +121,17 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     template_name = 'users/user_detail.html'
 
 
+
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = User
     template_name = 'users/user_confirm_delete.html'
     success_url = reverse_lazy('users')
 
+    def get_object(self, queryset=None):
+        user_id = self.kwargs.get('pk')
+        return get_object_or_404(User, pk=user_id)
+
     def test_func(self):
-        user = self.get_object()
-        return self.request.user == user
+        if self.request.user.is_superuser:
+            return True
+        return False
