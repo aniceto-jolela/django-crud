@@ -1,0 +1,15 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<h2>Management</h2>
+<img width="50"  src={{user.profile.image.url}}  />
+<h4>{{ user.username }}</h4>
+<h5>{{ user.email }}</h5>
+
+<h3>Files</h3>
+
+
+
+<h3>Clean Database</h3>
+
+
+{% endblock %}

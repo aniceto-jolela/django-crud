@@ -61,6 +61,11 @@ def profile(request):
 def update_pic(request, pk):
     picture_p = get_object_or_404(Profile, user__id=pk)
 
+    if not request.user.is_superuser:
+        messages.error(request, 'You do not have permission to update this profile ')
+        return redirect('users')
+
+    # Allow superuser to update the profile picture
     if request.method == 'POST':
         form = UserFile(request.POST, request.FILES, instance=picture_p)
         if form.is_valid():
@@ -74,6 +79,10 @@ def update_pic(request, pk):
         'form': form
     }
     return render(request, 'users/update_pic.html', context)
+
+
+def management(request):
+    return render(request, 'users/management.html')
 
 
 class UserListView(LoginRequiredMixin, ListView):
@@ -116,10 +125,19 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user == user
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
+class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = User
     template_name = 'users/user_detail.html'
 
+    def get_object(self, queryset=None):
+        user_id = self.kwargs.get('pk')
+        return get_object_or_404(User, pk=user_id)
+
+    def test_func(self):
+        if self.request.user.is_superuser:
+            return True
+        user = self.get_object()
+        return self.request.user == user
 
 
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

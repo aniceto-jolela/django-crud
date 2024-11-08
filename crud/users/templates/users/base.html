@@ -15,6 +15,7 @@
         {% if user.is_authenticated %}
             <a href="{% url 'profile' %}">Profile</a> |
             <a href="{% url 'users' %}">Users</a> |
+            <a href="{% url 'management' %}">Management</a> |
              <form method="POST" action="{% url 'logout' %}">
                  {% csrf_token %}
                 <button type="submit">Sign Out</button>
