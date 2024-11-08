@@ -11,6 +11,7 @@ from django.views.generic import (
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+import os
 
 
 def home(request):
@@ -81,8 +82,11 @@ def update_pic(request, pk):
     return render(request, 'users/update_pic.html', context)
 
 
-def management(request):
-    return render(request, 'users/management.html')
+class UserManagement(LoginRequiredMixin, ListView):
+    model = Profile
+    template_name = 'users/management.html'
+    os.chdir('/home/aniceto/Documents/Dev/django-crud/crud/media/profile_pics')
+    print(f'Dir actualy! {os.getcwd()}')
 
 
 class UserListView(LoginRequiredMixin, ListView):
