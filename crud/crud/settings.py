@@ -32,7 +32,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "users.apps.UsersConfig",
+    'users.apps.UsersConfig',
+    'crispy_forms',
+    'crispy_forms_foundation',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -121,6 +123,8 @@ STATIC_URL = "static/"
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
+
+CRISPY_TEMPLATE_PACK = 'foundation'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
