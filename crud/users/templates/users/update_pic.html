@@ -8,7 +8,7 @@
         {% csrf_token %}
         <fieldset>
             <legend>Update - picture</legend>
-            {{form}}
+            {{form.as_p}}
         </fieldset>
         <button>Update</button>
     </form>
