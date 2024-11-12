@@ -1,7 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% if title %}
         <title>{{title}}</title>
     {% else %}
@@ -9,28 +11,61 @@
     {% endif %}
     <!-- Compressed CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.9.0/dist/css/foundation.min.css" crossorigin="anonymous">
-</head>
+    <!-- Include Motion UI -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/motion-ui@1.2.3/dist/motion-ui.min.css" />
+      {% load static %}
+        <!-- My custom CSS -->
+      <link rel="stylesheet" href="{% static 'users/style.css' %}" >
+  </head>
 <body>
+
+
+    <div class="title-bar" data-responsive-toggle="main-nav" data-hide-for="medium">
+    <button class="menu-icon" type="button" data-toggle></button>
+    <div class="title-bar-title">Menu</div>
+    </div>
+
+    <div class="top-bar" id="main-nav" data-animate="hinge-in-from-top spin-out">
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'profile' %}">Profile</a></li>
+              <li><a href="{% url 'users' %}">Users</a></li>
+              <li><a href="{% url 'management' %}">Management</a></li>
+              <li  class="menu-text">
+                  <form method="POST" action="{% url 'logout' %}">
+                      {% csrf_token %}
+                      <button class="clear" type="submit">Sign Out</button>
+                  </form>
+              </li>
+               <li class="menu-text">
+                <div class="avatar-circle">
+                  <img class="avatar" src={{user.profile.image.url}} alt="User" />
+                </div>
+              </li>
+          {% else %}
+              <li><a href="{% url 'register' %}">Sign Up</a></li>
+              <li><a href="{% url 'login' %}">Sign In</a></li>
+          {% endif %}
+
+        </ul>
+      </div>
+    </div>
+
     <div>
-            <a href="{% url 'home' %}">Home</a> |
-            <a href="{% url 'about' %}">About</a> |
-        {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}">Profile</a> |
-            <a href="{% url 'users' %}">Users</a> |
-            <a href="{% url 'management' %}">Management</a> |
-             <form method="POST" action="{% url 'logout' %}">
-                 {% csrf_token %}
-                <button type="submit">Sign Out</button>
-            </form>
-        {% else %}
-            <a href="{% url 'register' %}">Sign Up</a> |
-            <a href="{% url 'login' %}">Sign In</a>
-        {% endif %}
 
         {% block content %}{% endblock %}
     </div>
 
-<!-- Compressed JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.9.0/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+    <!-- Compressed JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script> <!-- Ensure jQuery is loaded -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.9.0/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+    <!-- Include additional Foundation JS components -->
+    <script>
+        $(document).foundation(); // Initialize Foundation
+    </script>
 </body>
 </html>
