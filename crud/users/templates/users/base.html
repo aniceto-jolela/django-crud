@@ -16,9 +16,9 @@
       {% load static %}
         <!-- My custom CSS -->
       <link rel="stylesheet" href="{% static 'users/style.css' %}" >
+
   </head>
 <body>
-
 
     <div class="title-bar" data-responsive-toggle="main-nav" data-hide-for="medium">
     <button class="menu-icon" type="button" data-toggle></button>
@@ -29,19 +29,21 @@
       <div class="top-bar-left">
         <ul class="dropdown menu" data-dropdown-menu>
 
-          <li><a href="{% url 'home' %}">Home</a></li>
-          <li><a href="{% url 'about' %}">About</a></li>
+          <li class="{% if request.path == '/' %} active {% endif %}"><a href="{% url 'home' %}">Home</a></li>
+          <li class="{% if request.path == '/about/' %} active {% endif %}"><a href="{% url 'about' %}">About</a></li>
           {% if user.is_authenticated %}
-              <li><a href="{% url 'profile' %}">Profile</a></li>
-              <li><a href="{% url 'users' %}">Users</a></li>
-              <li><a href="{% url 'management' %}">Management</a></li>
+              <li class="{% if request.path == '/profile/' %} active {% endif %}"><a href="{% url 'profile' %}">Profile</a></li>
+              <li class="{% if request.path == '/users/' or request.path == '/user/new/' %} active {% endif %}">
+                  <a href="{% url 'users' %}">Users</a>
+              </li>
+              <li class="{% if request.path == '/management/' %} active {% endif %}"><a href="{% url 'management' %}">Management</a></li>
               <li  class="menu-text">
                   <form method="POST" action="{% url 'logout' %}">
                       {% csrf_token %}
-                      <button class="clear" type="submit">Sign Out</button>
+                      <button class="clear button alert menu-out" type="submit">Sign Out</button>
                   </form>
               </li>
-               <li class="menu-text">
+               <li>
                 <div class="avatar-circle">
                   <img class="avatar" src={{user.profile.image.url}} alt="User" />
                 </div>

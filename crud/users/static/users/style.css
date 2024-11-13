@@ -1,7 +1,6 @@
 .no-js .top-bar {
   display: none;
 }
-
 @media screen and (min-width: 40em) {
   .no-js .top-bar {
     display: block;
@@ -12,40 +11,38 @@
   }
 }
 
-
 .top-bar{
     background-color: #444; /* Replace with your desired color */
 }
-
-
 /* Change background color of dropdown items */
 .dropdown.menu {
     background-color: #444; /* Replace with your desired color for dropdowns */
+     justify-content: flex-end;
 }
-
 /* Change text color for better contrast */
 .top-bar a {
     color: #ffffff; /* Change link color to white for better visibility */
 }
-
 .dropdown.menu li a {
     color: #ffffff; /* Change dropdown link color to white */
 }
-
 /* Optional: Change hover state colors */
 .dropdown.menu li a:hover {
     background-color: #555; /* Background color on hover */
     color: #ffffff; /* Text color on hover */
 }
-
+.menu-text{
+    margin-top: 0px;
+}
+.clear.button.alert.menu-out{
+   padding: 0px;
+}
 .avatar-circle{
-    background: red;
-    margin: -5px;
-
+    background: cyan;
+    border-radius: 100px;
 }
 .avatar{
-    width: 2em;
-    height: 2em;
+    width: 30px;
+    height: 30px;
     border-radius: 100px;
-
 }

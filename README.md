@@ -11,7 +11,9 @@ A simple user crud.
 - Pillow: ``11.0.0``
 - **setuptools**: ``75.3.0``
 ###
-- - install Pillow
+
+### Requires
+
 ```shell
   python -m pip install Pillow
 ```
@@ -30,4 +32,8 @@ forms
 foundation
 ```shell
   pip install crispy-forms-foundation
+```
+setuptools
+```shell
+  pip install setuptools
 ```
