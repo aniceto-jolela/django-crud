@@ -69,3 +69,11 @@
 .btn-delete{
     margin-top: 15px;
 }
+/*Detail*/
+.detail-img{
+    width: 270px;
+    height:340px;
+    border-radius: 55px;
+    padding: 3px;
+    background: #19334d;
+}

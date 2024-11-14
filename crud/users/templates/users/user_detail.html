@@ -1,11 +1,23 @@
 {% extends 'users/base.html' %}
 {% block content %}
-<h2>Detail</h2>
-<img width="50"  src={{user.profile.image.url}}  />
-<h4>{{ user.username }}</h4>
-<h5>{{ user.email }}</h5>
-<h5>Active: {{ user.is_active }}</h5>
-<h5>Staff status: {{ user.is_staff }}</h5>
-<h5>Superuser status: {{ user.is_superuser }}</h5>
+<h2>User Information</h2>
+
+
+
+<div class="grid-x grid-margin-x">
+  <div class="cell small-10 medium-4 large-4 medium-offset-2 large-offset-2">
+      <img class="detail-img" src={{user.profile.image.url}}  />
+  </div>
+  <div class="cell small-10 medium-4 large-4">
+      <br/>
+      <h4>{{ user.username }}</h4>
+      <h5><b>First name:</b> {{ user.first_name }}</h5>
+      <h5><b>Last name:</b> {{ user.last_name }}</h5>
+      <h5><b>Email:</b> {{ user.email }}</h5>
+      <h5><b>Active:</b> {{ user.is_active }}</h5>
+      <h5><b>Staff status:</b> {{ user.is_staff }}</h5>
+      <h5><b>Superuser status:</b> {{ user.is_superuser }}</h5>
+  </div>
+</div>
 
 {% endblock %}

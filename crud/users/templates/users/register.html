@@ -9,7 +9,7 @@
                 <fieldset class="fieldset">
                    <legend> Create New Account </legend>
                     {{ u_form | crispy }}
-                   <button class="submit primary button" type="submit" >Create Account</button>
+                   <button class="submit primary button small" type="submit" >Create Account</button>
                     {% if not user.is_authenticated %}
                         <p>Already have an account? <a href="{% url 'login' %}">Sig in</a></p>
                     {% endif %}
