@@ -1,29 +1,43 @@
 {% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
 <h2>Profile</h2>
-<img  src={{user.profile.image.url}}  />
-<h4>{{ user.username }}</h4>
-<h4>{{ user.first_name }} {{ user.last_name }}</h4>
-<h5>{{ user.email }}</h5>
-<h5>Active: {{ user.is_active }}</h5>
-<h5>Staff status: {{ user.is_staff }}</h5>
-<h5>Superuser status: {{ user.is_superuser }}</h5>
-<br/>
     {% if messages %}
         {% for sms in messages %}
             <small>{{sms}}</small>
         {% endfor %}
         <br/>
     {% endif %}
+<div class="grid-x grid-margin-x">
+  <div class="cell small-10 medium-4 large-4 medium-offset-2 large-offset-2">
+      <img class="detail-img" src={{user.profile.image.url}}  />
+  </div>
+  <div class="cell small-10 medium-4 large-4">
+      <br/>
+      <h4>{{ user.username }}</h4>
+      <h5><b>Name:</b> {{ user.first_name }} {{ user.last_name }}</h5>
+      <h5><b>Email:</b> {{ user.email }}</h5>
+      <h5><b>Active:</b> {{ user.is_active }}</h5>
+      <h5><b>Staff status:</b> {{ user.is_staff }}</h5>
+      <h5><b>Superuser status:</b> {{ user.is_superuser }}</h5>
+  </div>
+</div>
+<br/><br/><br/>
 <div>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <fieldset>
-            <legend>Update</legend>
-            {{u_form.as_p}}
-            {{f_form.as_p}}
-        </fieldset>
-        <button>Update</button>
+        <div class="grid-container ">
+            <div class="grid-x grid-padding-x">
+                <div class="small-12 medium-9 medium-offset-1 large-9 large-offset-1">
+                    <fieldset class="fieldset">
+                        <legend>Update the Account</legend>
+                        {{u_form | crispy}}
+                        {{f_form | crispy}}
+                        <button class="submit button primary  small">Submit</button>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 

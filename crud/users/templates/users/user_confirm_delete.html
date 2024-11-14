@@ -4,9 +4,9 @@
 <h2>Delete</h2>
     <form method="POST">
         {% csrf_token %}
-        <h6>{{ user.username }}, are you sure?</h6>
-        <button type="submit">Delete</button>
-        <a href="{% url 'detail' object.id %}" >Cansel</a>
+        <h6>Are you sure you want to delete, <b>{{ user.username }}</b> ?</h6>
+        <button class="submit button alert small" type="submit">Delete</button>
+        <a class="button secondary small" href="{% url 'detail' object.id %}" >Cancel</a>
     </form>
 </div>
 {% endblock %}
