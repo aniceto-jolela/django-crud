@@ -77,3 +77,16 @@
     padding: 3px;
     background: #19334d;
 }
+/*Login*/
+.login{
+
+   background-image: url("/media/login.jpg");
+   background-repeat: no-repeat;
+   background-position: center center;
+   *background-size: cover;
+
+}
+.login-fieldset{
+    background: rgba(128, 128, 128, 0.7);
+    margin: 90px auto 230px auto;
+}

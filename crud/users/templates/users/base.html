@@ -51,16 +51,15 @@
                 </div>
               </li>
           {% else %}
-              <li><a href="{% url 'register' %}">Sign Up</a></li>
-              <li><a href="{% url 'login' %}">Sign In</a></li>
+              <li class="{% if request.path == '/user/new/' %} active {% endif %}" ><a href="{% url 'register' %}">Sign Up</a></li>
+              <li class="{% if request.path == '/login/' %} active {% endif %}" ><a href="{% url 'login' %}">Sign In</a></li>
           {% endif %}
 
         </ul>
       </div>
     </div>
 
-    <div class="callout">
-
+    <div class="{% if not request.path == '/login/' %} callout {% endif %}">
         {% block content %}{% endblock %}
     </div>
 

@@ -4,16 +4,13 @@
 
 <h4 class="text-right">{{ user.username }}</h4>
 <a href="{% url 'register' %}" class="button small">Add</a>
- {% if messages %}
+    {% if messages %}
+        <br/>
         {% for sms in messages %}
             <small>{{sms}}</small>
         {% endfor %}
-        <br/>
     {% endif %}
-<br/>
 <div class="table-scroll">
-
-
     <table class="hover">
         <thead class="thead">
             <tr>
