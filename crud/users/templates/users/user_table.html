@@ -1,9 +1,9 @@
 {% extends 'users/base.html' %}
 {% block content %}
-<h2>User Table</h2>
+<h2>User Data</h2>
 
-<h4>{{ user.username }}</h4>
-<a href="{% url 'register' %}" >Add</a>
+<h4 class="text-right">{{ user.username }}</h4>
+<a href="{% url 'register' %}" class="button small">Add</a>
  {% if messages %}
         {% for sms in messages %}
             <small>{{sms}}</small>
@@ -11,16 +11,31 @@
         <br/>
     {% endif %}
 <br/>
-    <ol>
-        {% for u in users_ %}
-        <li>
-            <a href="{% url 'detail' u.id %}"><img width="40" src={{u.profile.image.url}}></a> |
-            <a href="{% url 'update' u.id %}">{{ u.username }}</a> |
-            {{ u.email }} |
-            <a href="{% url 'update_pic' u.id %}">img</a> |
-            <a href="{% url 'delete' u.id %}" >Delete</a>
-        </li>
-    {% endfor %}
-    </ol>
+<div class="table-scroll">
 
+
+    <table class="hover">
+        <thead class="thead">
+            <tr>
+                <th>ID</th>
+                <th>Detail</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th colspan="2">Action</th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+        {% for u in users_ %}
+            <tr>
+                <td>{{ u.id }}</td>
+                <td><a href="{% url 'detail' u.id %}" class="thumbnail"><img class="table-img" src={{u.profile.image.url}} alt="user"></a></td>
+                <td><a href="{% url 'update' u.id %}">{{ u.username }}</a> </td>
+                <td>{{ u.email }}</td>
+                <td><a href="{% url 'update_pic' u.id %}" class="clear ">Edit</a></td>
+                <td><a href="{% url 'delete' u.id %}" class="clear button alert btn-delete">Delete</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

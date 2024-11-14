@@ -46,3 +46,26 @@
     height: 30px;
     border-radius: 100px;
 }
+/* User table */
+.table-img{
+    background: red;
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;
+}
+.thumbnail{
+    border-radius:50px
+}
+.thead{
+    background-color: #344045;
+    color: white;
+
+}
+.tbody{
+    background-color: #C6CBCD;
+    padding-top: 40px
+}
+
+.btn-delete{
+    margin-top: 15px;
+}
