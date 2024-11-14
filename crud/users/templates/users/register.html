@@ -2,10 +2,19 @@
 {% block content %}
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <fieldset>
-        <legend> Sign up </legend>
-        {{ u_form.as_p }}
-    </fieldset>
-    <button type="submit" >Create Account</button>
+    <div class="grid-container ">
+        <div class="grid-x grid-padding-x">
+            <div class="small-12 medium-9 medium-offset-1 large-9 large-offset-1">
+                <fieldset class="fieldset">
+                    <legend> Create New Account </legend>
+                    {{ u_form.as_p }}
+                </fieldset>
+                <button class="submit primary button" type="submit" >Create Account</button>
+                {% if not user.is_authenticated %}
+                    <p>Already have an account? <a href="{% url 'login' %}">Sig in</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </form>
 {% endblock %}
