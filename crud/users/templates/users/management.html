@@ -1,12 +1,33 @@
 {% extends 'users/base.html' %}
+{% load file_tags %}
 {% block content %}
 <h2>Management</h2>
-<img width="50"  src={{user.profile.image.url}}  />
-<h4>{{ user.username }}</h4>
-<h5>{{ user.email }}</h5>
 
 <h3>Files</h3>
+{% for file in media_files %}
+         <img src="{{MEDIA_URL}}profile_pics/{{ file }}" alt="{{file}}" width="50" height="50" />
+    {% empty %}
+        <h5>No images found.</h5>
+{% endfor %}
 
+<h3>Files that are being used</h3>
+{% for file_ in user_files %}
+    {% if file_.image != 'default.jpg' %}
+        <h5>{{file_.image}}</h5>
+        <img src={{file_.image.url}} width="50" alt="{{file_.image}}" />
+    {% endif %}
+{% endfor %}
+
+<h3>Files that are not being used</h3>
+{% for file__ in user_files %}
+    {% if file__.image != 'default.jpg' %}
+            <p>Debug: {{ file__.image }}</p>
+            {% if file_exists %}
+                <h5>{{file__.image}}</h5>
+                 <img src="{{MEDIA_URL}}profile_pics/{{ file }}" alt="{{file}}" width="50" height="50" />
+            {% endif %}
+    {% endif %}
+{% endfor %}
 
 
 <h3>Clean Database</h3>

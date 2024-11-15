@@ -2,8 +2,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .models import Profile
-from crispy_forms_foundation.layout import Layout, Fieldset, Field
-from crispy_forms.helper import FormHelper
 
 
 class UserRegister(UserCreationForm):

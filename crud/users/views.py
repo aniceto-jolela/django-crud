@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 import os
+from django.conf import settings
 
 
 def home(request):
@@ -59,6 +60,7 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
+@login_required
 def update_pic(request, pk):
     picture_p = get_object_or_404(Profile, user__id=pk)
 
@@ -82,11 +84,16 @@ def update_pic(request, pk):
     return render(request, 'users/update_pic.html', context)
 
 
-class UserManagement(LoginRequiredMixin, ListView):
-    model = Profile
-    template_name = 'users/management.html'
-    os.chdir('/home/aniceto/Documents/Dev/django-crud/crud/media/profile_pics')
-    print(f'Dir actualy! {os.getcwd()}')
+def management(request):
+    # Local file
+    profile_pics_path = os.path.join(settings.MEDIA_ROOT, 'profile_pics')
+    media_files = os.listdir(profile_pics_path) # List all files in profiles_pics
+    context = {
+        'title': 'Management',
+        'media_files': media_files,
+        'user_files': Profile.objects.all()
+    }
+    return render(request, 'users/management.html', context)
 
 
 class UserListView(LoginRequiredMixin, ListView):
