@@ -1,4 +1,41 @@
 {% extends 'users/base.html' %}
 {% block content %}
-<h3>About</h3>
+     <div class="grid-x grid-margin-x">
+        <div class="cell small-12 medium-10 medium-offset-1 large-10 large-offset-1">
+            <p><br/>
+                For the creation of this website was used:
+            </p>
+            <ul>
+                <li><a href="https://www.python.org/">Python</a> as programming language</li>
+                <li><a href="https://www.djangoproject.com/">Django Framework</a> to facilitate the rapid development of safe and easy to maintain sites</li>
+                <li><a href="https://get.foundation/index.html">Foundation</a> (The most advanced responsive front-end framework in the world) for design</li>
+            </ul>
+            <p><br/>
+                This web-site is not intended to focus on the <code>&lt;front-end&gt;</code> or <code>&lt;design&gt;</code> its main purpose are:
+            </p>
+            <ul>
+                <li>User authentication</li>
+                <li>Limit access</li>
+                <li>Creating privileges</li>
+                <li> Making crud (create, read, updates and delete) of user</li>
+                <li>Using good security practices</li>
+            </ul>
+            <p class="code-inline">
+               💡: A file storage tip has been shared, is located in the <a href="{% url 'management' %}">Management</a> menu.
+            </p>
+            <p><br/>
+                This web-site is available in the <a href="https://github.com/aniceto-jolela/django-crud">Github</a> repository, for those who want to study the code or make a fork of the Project be comfortable.
+            </p>
+            <p><br/>
+                It has another <a href="https://django-login-logout.onrender.com">project</a> but simple without image manipulation, simply only authentication and the user record.
+            </p>
+            <p>
+                Every base structure is already done (the business and blog part) if you want to do the fork or clone to reuse the code and redo a new project is comfortable (<a href="https://github.com/aniceto-jolela/Django-login-logout">Github</a>).
+            </p>
+            <p>
+                NOTE: These two projects I have compared with is to help those who are having some problems of certain script in Django.
+            </p>
+        </div>
+     </div>
+
 {% endblock %}
