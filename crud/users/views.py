@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from .forms import UserRegister, UserUpdate, UserFile, Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -94,6 +94,13 @@ def management(request):
         'user_files': Profile.objects.all()
     }
     return render(request, 'users/management.html', context)
+
+
+def delete_file(request, filename):
+    file_path = os.path.join(settings.MEDIA_ROOT, filename)
+    if os.path.exists(file_path):
+        os.remove(file_path) # Delete the file
+    return reverse('management')
 
 
 class UserListView(LoginRequiredMixin, ListView):
