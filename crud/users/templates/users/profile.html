@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <h2>Profile</h2>
+<hr/>
     {% if messages %}
         {% for sms in messages %}
             <small>{{sms}}</small>
@@ -9,7 +10,7 @@
         <br/>
     {% endif %}
 <div class="grid-x grid-margin-x">
-  <div class="cell small-10 medium-4 large-4 medium-offset-2 large-offset-2">
+  <div class="cell small-10 small-offset-2 medium-4 large-4 medium-offset-2 large-offset-2">
       <img class="detail-img" src={{user.profile.image.url}}  />
   </div>
   <div class="cell small-10 medium-4 large-4">

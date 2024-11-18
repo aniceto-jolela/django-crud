@@ -1,29 +1,77 @@
 {% extends 'users/base.html' %}
 {% block content %}
-<h2>Management</h2>
+<div class="grid-x grid-margin-x">
+    <div class="cell small-12 medium-10 medium-offset-1 large-10 large-offset-1">
+        <h2>Management</h2>
+        <h5 class="text-right">Image Storage Tip</h5>
+        <hr/>
+    </div>
+    <div class="row small-5 small-offset-1  medium-3 medium-offset-2 large-3 large-offset-2">
+        <img src="{{MEDIA_URL}}man.jpg" width="300" alt="black man"/>
+        <p class="before">Before</p>
+        <span>Type: jpg</span><br/>
+        <span>Width: 640px</span><br/>
+        <span>height: 640px</span>
+        <p>size: 34,164 bytes</p>
+    </div>
+    <div class="cell small-4 small-offset-1 medium-2 medium-offset-1  large-2 large-offset-1">
+        <img src="{{MEDIA_URL}}man.jpg" width="300" alt="black man"/>
+        <p class="after">After</p>
+        <span>Type: jpg</span><br/>
+        <span>Width: 300px</span><br/>
+        <span>height: 300px</span>
+        <p>size: 9,916 bytes</p>
+    </div>
+    <div class="cell small-12 medium-10 medium-offset-1 large-8 large-offset-1">
+        <code class="code-block">{
+            def save(self, *args, **kwargs):
+            ...
+            img = Image.open(self.image.path)
+            if img.height > 300 or img.width > 300:
+                resize = (300, 300)
+                img.thumbnail(resize)
+                img.save(self.image.path)
+                return 'has been updated correctly (300x300)!'
+        }</code>
+    </div>
+    <div class="cell small-12  medium-10 medium-offset-1  large-8 large-offset-1">
+        <h4>Purpose and Benefits</h4>
+        <dl>
+            <dt>Image Optimization</dt>
+            <dd>By resizing images to a maximum of 300x300 pixels, this method helps optimize images for web use or storage, reducing file size and improving loading times.</dd>
+            <dt>Aspect Ratio Preservation</dt>
+            <dd>Using thumbnail ensures that images retain their original aspect ratio, preventing distortion which can occur if images are resized without regard to their proportions.</dd>
+            <dt>Automatic Handling</dt>
+            <dd>This method automates the process of checking and resizing images whenever an instance of this model is saved, enhancing user experience by ensuring consistent image quality.</dd>
+        </dl>
+    </div>
 
-<h3>Files</h3>
-{% for file in media_files %}
-        <form method="POST" action="{% url 'delete_file' file %}">
-            {% csrf_token %}
-            <span>{{MEDIA_URL}}profile_pics/{{ file }}</span>
-            <img src="{{MEDIA_URL}}profile_pics/{{ file }}" alt="{{file}}" width="50" height="50" />
-            <button type="submit">Delete</button>
-        </form>
-    {% empty %}
-        <h5>No images found.</h5>
-{% endfor %}
 
-<h3>Files that are being used</h3>
-{% for file_ in user_files %}
-    {% if file_.image != 'default.jpg' %}
-        <h5>{{file_.image}}</h5>
-        <img src={{file_.image.url}} width="50" alt="{{file_.image}}" />
-    {% endif %}
-    {% empty %}
-            <h5>No images found.</h5>
-{% endfor %}
+    <div class="cell small-12 medium-10 medium-offset-1 large-10 large-offset-1">
+        <hr/>
+       <h3>Files</h3>
+        {% for file in media_files %}
+                <form method="POST" action="{% url 'delete_file' file %}">
+                    {% csrf_token %}
+                    <span>{{MEDIA_URL}}profile_pics/{{ file }}</span>
+                    <img src="{{MEDIA_URL}}profile_pics/{{ file }}" alt="{{file}}" width="50" height="50" />
+                    <button type="submit">Delete</button>
+                </form>
+            {% empty %}
+                <h5>No images found.</h5>
+        {% endfor %}
 
-<h3>Clean Database</h3>
+        <h3>Files that are being used</h3>
+        {% for file_ in user_files %}
+            {% if file_.image != 'default.jpg' %}
+                <h5>{{file_.image}}</h5>
+                <img src={{file_.image.url}} width="50" alt="{{file_.image}}" />
+            {% endif %}
+            {% empty %}
+                    <h5>No images found.</h5>
+        {% endfor %}
 
+        <h3>Clean Database</h3>
+    </div>
+</div>
 {% endblock %}

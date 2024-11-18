@@ -90,3 +90,20 @@
     background: rgba(128, 128, 128, 0.7);
     margin: 90px auto 230px auto;
 }
+/*Management*/
+.before{
+    background: #999900;
+    color: white;
+    margin-top:2px;
+    padding-top:3px;
+    padding-left: 6px;
+    font-weight: bold;
+}
+.after{
+    background: #008000;
+    color: white;
+    margin-top:2px;
+    padding-top:3px;
+    padding-left: 6px;
+    font-weight: bold;
+}

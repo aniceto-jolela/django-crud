@@ -84,6 +84,7 @@ def update_pic(request, pk):
     return render(request, 'users/update_pic.html', context)
 
 
+@login_required
 def management(request):
     # Local file
     profile_pics_path = os.path.join(settings.MEDIA_ROOT, 'profile_pics')
