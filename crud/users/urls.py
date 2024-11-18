@@ -19,5 +19,5 @@ urlpatterns = [
     path('user/<int:pk>/delete/', UserDeleteView.as_view(), name='delete'),
     path('user/<int:pk>/update_pic/', views.update_pic, name='update_pic'),
     path('management/', views.management, name='management'),
-    path('user/<str:filename>/delete_file', views.delete_file, name='delete_file')
+    path('delete_all_data/', views.delete_all_data, name='delete_all_data')
 ]

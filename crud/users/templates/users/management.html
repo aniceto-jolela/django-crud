@@ -4,6 +4,16 @@
     <div class="cell small-12 medium-10 medium-offset-1 large-10 large-offset-1">
         <h2>Management</h2>
         <h5 class="text-right">Image Storage Tip</h5>
+            {% if messages %}
+                {% for sms in messages %}
+                    <div class="callout alert" data-closable>
+                      <span>{{sms}}</span>
+                      <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
         <hr/>
     </div>
     <div class="row small-5 small-offset-1  medium-3 medium-offset-2 large-3 large-offset-2">
@@ -46,32 +56,52 @@
         </dl>
     </div>
 
-
     <div class="cell small-12 medium-10 medium-offset-1 large-10 large-offset-1">
         <hr/>
-       <h3>Files</h3>
-        {% for file in media_files %}
-                <form method="POST" action="{% url 'delete_file' file %}">
-                    {% csrf_token %}
-                    <span>{{MEDIA_URL}}profile_pics/{{ file }}</span>
+        <button type="button" class="button" data-toggle="offCanvasLeftSplit1">Open Left</button>
+        <button type="button" class="button" data-toggle="offCanvasRightSplit2">Open Right</button>
+    </div>
+
+
+      <div class="cell small-6">
+        <div class="off-canvas-wrapper">
+          <div class="off-canvas-absolute position-left" id="offCanvasLeftSplit1" data-off-canvas>
+            <!-- Your menu or Off-canvas content goes here -->
+          </div>
+          <div class="off-canvas-content" style="min-height: 300px;" data-off-canvas-content>
+               <h3>Local Files</h3>
+                {% for file in media_files %}
                     <img src="{{MEDIA_URL}}profile_pics/{{ file }}" alt="{{file}}" width="50" height="50" />
-                    <button type="submit">Delete</button>
-                </form>
-            {% empty %}
-                <h5>No images found.</h5>
-        {% endfor %}
+                    <h5>{{ file }}</h5>
+                    {% empty %}
+                        <h5>No images found.</h5>
+                {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="cell small-6">
+        <div class="off-canvas-wrapper">
+          <div class="off-canvas-absolute position-right" id="offCanvasRightSplit2" data-off-canvas>
+            <!-- Your menu or Off-canvas content goes here -->
+          </div>
+          <div class="off-canvas-content" style="min-height: 300px;" data-off-canvas-content>
+                <h3>Files that are being used</h3>
+                {% for file_ in user_files %}
+                    {% if file_.image != 'default.jpg' %}
+                        <h5>{{file_.image}}</h5>
+                        <img src={{file_.image.url}} width="50" alt="{{file_.image}}" />
+                    {% endif %}
+                    {% empty %}
+                            <h5>No images found.</h5>
+                {% endfor %}
+          </div>
+        </div>
+      </div>
 
-        <h3>Files that are being used</h3>
-        {% for file_ in user_files %}
-            {% if file_.image != 'default.jpg' %}
-                <h5>{{file_.image}}</h5>
-                <img src={{file_.image.url}} width="50" alt="{{file_.image}}" />
-            {% endif %}
-            {% empty %}
-                    <h5>No images found.</h5>
-        {% endfor %}
 
-        <h3>Clean Database</h3>
+    <div class="cell small-12 medium-10 medium-offset-1 large-10 large-offset-1 text-right">
+        <hr/>
+            <a href="{% url 'delete_all_data' %}" class="button tiny alert" >Clean Database</a>
     </div>
 </div>
 {% endblock %}

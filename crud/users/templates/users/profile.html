@@ -5,7 +5,12 @@
 <hr/>
     {% if messages %}
         {% for sms in messages %}
-            <small>{{sms}}</small>
+            <div class="callout primary" data-closable="slide-out-right">
+              <span>{{sms}}</span>
+              <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
         {% endfor %}
         <br/>
     {% endif %}

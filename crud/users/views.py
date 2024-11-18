@@ -73,7 +73,7 @@ def update_pic(request, pk):
         form = UserFile(request.POST, request.FILES, instance=picture_p)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Picture has been updated successfully!')
+            messages.success(request, 'The image was successfully updated!')
             return redirect('users')
     else:
         form = UserFile(instance=picture_p)
@@ -97,11 +97,35 @@ def management(request):
     return render(request, 'users/management.html', context)
 
 
-def delete_file(request, filename):
-    file_path = os.path.join(settings.MEDIA_ROOT, filename)
-    if os.path.exists(file_path):
-        os.remove(file_path) # Delete the file
-    return reverse('management')
+@login_required
+def delete_all_data(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'You do not have permission to delete all Users and Profiles.')
+        return redirect('management')
+
+    # Allow superuser to delete all data
+    if request.method == 'POST':
+        profile_pics_path = os.path.join(settings.MEDIA_ROOT, 'profile_pics')
+        if os.path.exists(profile_pics_path):
+            if not os.listdir(profile_pics_path):
+                messages.warning(request, 'No images found.')
+                return redirect('management')
+            for filename in os.listdir(profile_pics_path):
+                file_path = os.path.join(profile_pics_path, filename)
+                try:
+                    if os.path.isfile(file_path):
+                        os.remove(file_path) # Delete the file
+                except Exception as e:
+                    messages.error(request, f'Error deleting {filename}: {e}')
+        else:
+            messages.error(request, 'Directory does not exist.')
+
+        # Profile.objects.all().delete() # Deletes all profiles
+        # User.objects.all().delete() # Deletes all users
+        messages.success(request, 'All user and profile data were successfully deleted!')
+        return redirect('home')
+    else:
+        return render(request, 'users/delete_all_data.html')
 
 
 class UserListView(LoginRequiredMixin, ListView):
@@ -134,6 +158,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         form.instance.username = form.cleaned_data.get('username')
         form.instance.email = form.cleaned_data.get('email')
+        messages.success(self.request, 'The user has been successfully updated!')
         return super().form_valid(form)
 
     def test_func(self):
@@ -170,5 +195,6 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         if self.request.user.is_superuser:
+            messages.success(self.request, 'The user has been successfully deleted!')
             return True
         return False

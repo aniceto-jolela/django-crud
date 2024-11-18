@@ -3,11 +3,17 @@
 <h2>User Data</h2>
 
 <h4 class="text-right">{{ user.username }}</h4>
+
 <a href="{% url 'register' %}" class="button small">Add</a>
     {% if messages %}
         <br/>
         {% for sms in messages %}
-            <small>{{sms}}</small>
+            <div class="callout secondary" data-closable="slide-out-right">
+              <span>{{sms}}</span>
+              <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
         {% endfor %}
     {% endif %}
 <div class="table-scroll">
