@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-zy_^7a++id0p_@shk!y^8f)f&i%x^*fh-=(9cq&*+h!e7@aeqj"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -127,9 +127,14 @@ LOGIN_REDIRECT_URL = 'home'
 
 CRISPY_TEMPLATE_PACK = 'foundation-6'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Media files (user uploads)
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory for uploaded media files
 
+# Static files (CSS, JavaScript, Images)
+# To deploy
+STATIC_ROOT = BASE_DIR / 'staticfiles' # Directory for collected static files
+# end deploy
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
