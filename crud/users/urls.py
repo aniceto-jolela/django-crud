@@ -7,6 +7,7 @@ from .views import (
     UserListView
 )
 
+
 urlpatterns = [
     path('', views.home, name="home"),
     path('about/', views.about, name='about'),
@@ -19,5 +20,5 @@ urlpatterns = [
     path('user/<int:pk>/delete/', UserDeleteView.as_view(), name='delete'),
     path('user/<int:pk>/update_pic/', views.update_pic, name='update_pic'),
     path('management/', views.management, name='management'),
-    path('delete_all_data/', views.delete_all_data, name='delete_all_data')
+    path('delete_all_data/', views.delete_all_data, name='delete_all_data'),
 ]

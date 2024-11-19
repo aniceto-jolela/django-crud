@@ -104,6 +104,7 @@ def delete_all_data(request):
         return redirect('management')
 
     # Allow superuser to delete all data
+    # Local Files
     if request.method == 'POST':
         profile_pics_path = os.path.join(settings.MEDIA_ROOT, 'profile_pics')
         if os.path.exists(profile_pics_path):
@@ -119,9 +120,9 @@ def delete_all_data(request):
                     messages.error(request, f'Error deleting {filename}: {e}')
         else:
             messages.error(request, 'Directory does not exist.')
-
-        # Profile.objects.all().delete() # Deletes all profiles
-        # User.objects.all().delete() # Deletes all users
+        # Data base
+        Profile.objects.all().delete() # Deletes all profiles
+        User.objects.all().delete() # Deletes all users
         messages.success(request, 'All user and profile data were successfully deleted!')
         return redirect('home')
     else:
@@ -193,8 +194,11 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         user_id = self.kwargs.get('pk')
         return get_object_or_404(User, pk=user_id)
 
+    def form_valid(self, form):
+        messages.success(self.request, 'The user has been successfully deleted!')
+        return super().form_valid(form)
+
     def test_func(self):
         if self.request.user.is_superuser:
-            messages.success(self.request, 'The user has been successfully deleted!')
             return True
         return False

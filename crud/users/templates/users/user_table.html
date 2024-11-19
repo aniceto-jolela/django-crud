@@ -3,8 +3,33 @@
 <h2>User Data</h2>
 
 <h4 class="text-right">{{ user.username }}</h4>
+<!-- This is the first modal -->
+<div class="reveal text-center" id="exampleModal2" data-reveal>
+  <h1 class="color-red">Data deleted!</h1><hr/>
+    <p class="lead text-left">There are several reasons why one might choose not to delete data from a database, often revolving around <code>data integrity, performance,</code> and <code>regulatory compliance.</code></p>
+    <p>Avoid deleting data in the database.</p>
+    <img src="{{MEDIA_URL}}woman_delete.jpg" alt="woman_delete"><hr/>
+    <p>Instead of excluding, opt for a <code>"soft delete"</code> approach where records are marked as <b>inactive</b> instead of removed. </p>
+    <img src="{{MEDIA_URL}}woman_false.jpg" alt="woman_false"><p>Active: False</p>
+    <img src="{{MEDIA_URL}}woman.jpg" alt="woman"><p>Active: True</p>
+  <button class="button" data-open="exampleModal3">Why full access?</button>
+  <button class="close-button" data-close aria-label="Close reveal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<!-- This is the nested modal -->
+<div class="reveal" id="exampleModal3" data-reveal>
+  <h2>All privileges!</h2>
+    <p>I made the option of deleting data on this site, because this site has no purpose of Armazer the data, but authentication and privilege tests.</p>
+    <p>For those who want to do the tests on the site will have the privilege of eliminating your data at any time without restriction.</p>
+  <button class="close-button" data-close aria-label="Close reveal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
 <a href="{% url 'register' %}" class="button small">Add</a>
+<button class="button small secondary" data-open="exampleModal2">Info</button>
     {% if messages %}
         <br/>
         {% for sms in messages %}
