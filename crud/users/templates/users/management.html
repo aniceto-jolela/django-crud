@@ -60,14 +60,15 @@
 
         <div class="cell small-12 medium-10 medium-offset-1 large-10 large-offset-1">
             <hr/>
-            <button type="button" class="button" data-toggle="offCanvasLeftSplit1">Open Left</button>
-            <button type="button" class="button" data-toggle="offCanvasRightSplit2">Open Right</button>
+            <button type="button" class="button small" data-toggle="offCanvasLeftSplit1">Open Left</button>
+            <button type="button" class="button small" data-toggle="offCanvasRightSplit2">Open Right</button>
         </div>
 
         <div class="cell small-6">
             <div class="off-canvas-wrapper">
               <div class="off-canvas-absolute position-left" id="offCanvasLeftSplit1" data-off-canvas>
                 <!-- Your menu or Off-canvas content goes here -->
+                  <p>File view</p>
               </div>
               <div class="off-canvas-content" style="min-height: 300px;" data-off-canvas-content>
                    <h3>Local Files</h3>
@@ -93,7 +94,7 @@
                             <img src={{file_.image.url}} width="50" alt="{{file_.image}}" />
                         {% endif %}
                         {% empty %}
-                                <h5>No images found.</h5>
+                            <h5>No images found.</h5>
                     {% endfor %}
               </div>
             </div>
