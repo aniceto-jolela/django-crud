@@ -1,4 +1,5 @@
 {% extends 'users/base.html' %}
+{% load static %}
 {% block content %}
 <h2>User Data</h2>
 
@@ -8,10 +9,10 @@
   <h1 class="color-red">Data deleted!</h1><hr/>
     <p class="lead text-left">There are several reasons why one might choose not to delete data from a database, often revolving around <code>data integrity, performance,</code> and <code>regulatory compliance.</code></p>
     <p>Avoid deleting data in the database.</p>
-    <img src="{{MEDIA_URL}}woman_delete.jpg" alt="woman_delete"><hr/>
+    <img src="{% static 'images/woman_delete.jpg' %}" alt="woman_delete"><hr/>
     <p>Instead of excluding, opt for a <code>"soft delete"</code> approach where records are marked as <b>inactive</b> instead of removed. </p>
-    <img src="{{MEDIA_URL}}woman_false.jpg" alt="woman_false"><p>Active: False</p>
-    <img src="{{MEDIA_URL}}woman.jpg" alt="woman"><p>Active: True</p>
+    <img src="{% static 'images/woman_false.jpg' %}" alt="woman_false"><p>Active: False</p>
+    <img src="{% static 'images/woman.jpg' %}" alt="woman"><p>Active: True</p>
   <button class="button" data-open="exampleModal3">Why full access?</button>
   <button class="close-button" data-close aria-label="Close reveal" type="button">
     <span aria-hidden="true">&times;</span>

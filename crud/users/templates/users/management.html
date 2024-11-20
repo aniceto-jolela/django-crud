@@ -1,4 +1,5 @@
 {% extends 'users/base.html' %}
+{% load static %}
 {% block content %}
 <div class="grid-x grid-margin-x">
     <div class="cell small-12 medium-10 medium-offset-1 large-10 large-offset-1">
@@ -17,7 +18,7 @@
         <hr/>
     </div>
     <div class="row small-5 small-offset-1  medium-3 medium-offset-2 large-3 large-offset-2">
-        <img src="{{MEDIA_URL}}man.jpg" width="300" alt="black man"/>
+        <img src="{% static 'images/man.jpg' %}" width="300" alt="black man"/>
         <p class="before">Before</p>
         <span>Type: jpg</span><br/>
         <span>Width: 640px</span><br/>
@@ -25,7 +26,7 @@
         <p>size: 34,164 bytes</p>
     </div>
     <div class="cell small-4 small-offset-1 medium-2 medium-offset-1  large-2 large-offset-1">
-        <img src="{{MEDIA_URL}}man.jpg" width="300" alt="black man"/>
+        <img src="{% static 'images/man.jpg' %}" width="300" alt="black man"/>
         <p class="after">After</p>
         <span>Type: jpg</span><br/>
         <span>Width: 300px</span><br/>

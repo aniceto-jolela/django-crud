@@ -1,4 +1,5 @@
 {% extends 'users/base.html' %}
+{% load static %}
 {% block content %}
     {% if messages %}
         {% for sms in messages %}
@@ -14,7 +15,7 @@
     <div class="grid-x grid-margin-x">
         <div class="cell small-12 medium-10 medium-offset-1 large-10 large-offset-1">
            <h1>Introduction to Django</h1>
-            <img src="{{MEDIA_URL}}home.jpg" width="400" />
+            <img src="{% static 'images/home.jpg' %}" width="400" />
             <p><br/>
                 Django is a <span class="code-inline">high-level web framework</span> built using Python, designed to facilitate the rapid development of secure and maintainable websites. It was created by Adrian Holovaty and Simon Willison in 2003 and released publicly in July 2005. The framework follows the <b>Model-Template-View (MTV)</b> architectural pattern, which promotes the separation of business logic from presentation, making it easier to manage complex applications.
             </p>
@@ -35,7 +36,7 @@
         </div>
         <div class="cell small-12 medium-10 medium-offset-1 large-10 large-offset-1">
             <h2>Django in Cybersecurity</h2>
-            <img src="{{MEDIA_URL}}security.jpg" width="500" />
+            <img src="{% static 'images/security.jpg' %}" width="500" />
             <p><br/>
                 Django's architecture inherently supports several cybersecurity practices, making it a suitable choice for developing secure web applications. Here are some ways Django contributes to cybersecurity:
             </p>
