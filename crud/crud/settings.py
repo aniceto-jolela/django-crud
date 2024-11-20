@@ -120,22 +120,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
+
+CRISPY_TEMPLATE_PACK = 'foundation-6'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # URL prefix for media files
+MEDIA_URL = '/media/' # Filesystem path where media files are stored
+
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
-
-CRISPY_TEMPLATE_PACK = 'foundation-6'
-
-# Media files (user uploads)
-MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory for uploaded media files
-MEDIA_ROOT = BASE_DIR / 'media'
-
-# Static files (CSS, JavaScript, Images)
-# To deploy
-STATIC_ROOT = BASE_DIR / 'staticfiles' # Directory for collected static files
-# end deploy
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
