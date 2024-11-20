@@ -121,6 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directory where collectstatic will place files
 
 CRISPY_TEMPLATE_PACK = 'foundation-6'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # URL prefix for media files
