@@ -46,7 +46,11 @@
                <li>
                 <div class="avatar-circle">
                     {% if request.user == user %}
-                        <img class="avatar" src={{user.profile.image.url}} alt="User" />
+                        {% if user.profile.image == 'default.jpg' %}
+                            <img class="avatar" src="{% static 'images/default.jpg' %}" alt="User" />
+                         {% else %}
+                            <img class="avatar" src={{user.profile.image.url}} alt="User" />
+                         {% endif %}
                     {% endif %}
                 </div>
               </li>

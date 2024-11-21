@@ -13,6 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 import os
 from django.conf import settings
+from django.contrib.auth.views import LoginView
 
 
 def home(request):
@@ -27,9 +28,13 @@ def register(request):
     if request.method == 'POST':
         form = UserRegister(request.POST)
         if form.is_valid():
-            user = form.save()
-            messages.success(request, f'{user.username} created successfully.')
-            return redirect('home')
+            try:
+                user = form.save()
+                messages.success(request, f'{user.username} created successfully.')
+                return redirect('home')
+            except Exception as e:
+                # Handle the exception gracefully
+                messages.error(request, f'An error occurred during registration:  {e}')
     else:
         form = UserRegister()
     context = {
@@ -127,6 +132,16 @@ def delete_all_data(request):
         return redirect('home')
     else:
         return render(request, 'users/delete_all_data.html')
+
+
+class UserLoginView(LoginView):
+    template_name = 'users/login.html'
+
+    def get(self, request, *args, **kwargs):
+        # If the user is already authenticated, redirect them to another page
+        if request.user.is_authenticated:
+            return redirect('home')  # Or the URL where you want to redirect the logged-in user
+        return super().get(request, *args, **kwargs)
 
 
 class UserListView(LoginRequiredMixin, ListView):

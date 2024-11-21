@@ -57,7 +57,13 @@
         {% for u in users_ %}
             <tr>
                 <td>{{ u.id }}</td>
-                <td><a href="{% url 'detail' u.id %}" class="thumbnail"><img class="table-img" src={{u.profile.image.url}} alt="user"></a></td>
+                <td><a href="{% url 'detail' u.id %}" class="thumbnail">
+                    {% if user.profile.image == 'default.jpg' %}
+                        <img class="table-img" src="{% static 'images/default.jpg' %}" alt="user">
+                    {% else %}
+                        <img class="table-img" src={{u.profile.image.url}} alt="user">
+                     {% endif %}
+                </a></td>
                 <td><a href="{% url 'update' u.id %}">{{ u.username }}</a> </td>
                 <td>{{ u.email }}</td>
                 <td><a href="{% url 'update_pic' u.id %}" class="clear ">Edit</a></td>

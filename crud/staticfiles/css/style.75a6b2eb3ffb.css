@@ -1,3 +1,4 @@
+{% load static %}
 .no-js .top-bar {
   display: none;
 }
@@ -80,7 +81,7 @@
 /*Login*/
 .login{
 
-   background-image: url("/media/login.jpg");
+   background-image: url("/static/images/login.a255ad803883.jpg");
    background-repeat: no-repeat;
    background-position: center center;
    *background-size: cover;

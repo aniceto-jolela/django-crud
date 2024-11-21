@@ -122,7 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 CRISPY_TEMPLATE_PACK = 'foundation-6'
 
-#STORAGES = {"staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"}}
+STORAGES = {"staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"}}
 STATICFILES_DIRS = [
     BASE_DIR / 'static',  # Replace 'static' with your actual static directory name
 ]
