@@ -1,6 +1,5 @@
 {% extends 'users/base.html' %}
 {% load crispy_forms_tags %}
-{% load custom_filters %}
 {% block content %}
 <div class="login">
     <form method="POST">
@@ -8,13 +7,13 @@
         <div class="grid-container ">
             <div class="grid-x grid-padding-x">
                 <div class="small-12 medium-6 medium-offset-3 large-4 large-offset-4">
-                    <div>
+                    <fieldset class="fieldset login-fieldset">
                         <h5>Login</h5>
 
-                        {{ form | crispy }}
+                        {{ form }}
                         <button class="submit button primary small" type="submit">Sign In</button>
                         <p>Don't have an account? <a href="{% url 'register' %}">Sig up</a></p>
-                    </div>
+                    </fieldset>
                 </div>
             </div>
         </div>
