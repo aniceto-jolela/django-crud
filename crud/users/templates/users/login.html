@@ -9,10 +9,16 @@
                 <div class="small-12 medium-6 medium-offset-3 large-4 large-offset-4">
                     <fieldset class="fieldset login-fieldset">
                         <h5>Login</h5>
-                         <!-- Check if the number of fields is 1 -->
+
+                        <!-- Custom logic based on the number of fields -->
                         {% if form|length == 1 %}
-                            <div class="single-field-message">Only one field available.</div>
+                            <div class="alert alert-info">There is only one field in this form.</div>
+                        {% else %}
+                            <div class="alert alert-warning">There are multiple fields in this form.</div>
                         {% endif %}
+
+                        <!-- Render the form using crispy forms -->
+
                         {{ form | crispy }}
                         <button class="submit button primary small" type="submit">Sign In</button>
                         <p>Don't have an account? <a href="{% url 'register' %}">Sig up</a></p>
