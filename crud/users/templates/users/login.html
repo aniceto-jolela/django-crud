@@ -10,16 +10,7 @@
                     <fieldset class="fieldset login-fieldset">
                         <h5>Login</h5>
 
-                        <!-- Custom logic based on the number of fields -->
-                         {% if field.field.abide_msg %}
-                            <span id="abide_error_{{ field.auto_id }}" class="form-error{% if form_show_errors and not field.errors|length == 1 %} compact{% endif %}" data-form-error-for="{{ field.id_for_label }}">
-                                {{ field.field.abide_msg }}
-                            </span>
-                        {% endif %}
-
-                        <!-- Render the form using crispy forms -->
-
-                        {{ form | crispy }}
+                        {{ form }}
                         <button class="submit button primary small" type="submit">Sign In</button>
                         <p>Don't have an account? <a href="{% url 'register' %}">Sig up</a></p>
                     </fieldset>
