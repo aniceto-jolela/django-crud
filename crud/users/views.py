@@ -50,10 +50,13 @@ def profile(request):
         u_form = UserUpdate(request.POST, instance=request.user)
         f_form = UserFile(request.POST, request.FILES, instance=request.user.profile)
         if u_form.is_valid() and f_form.is_valid():
-            u_form.save()
-            f_form.save()
-            user = u_form.cleaned_data.get('username')
-            messages.success(request, f'{user} updated successfully!')
+            try:
+                u_form.save()
+                f_form.save()
+                user = u_form.cleaned_data.get('username')
+                messages.success(request, f'{user} updated successfully!')
+            except Exception as e:
+                messages.error(request, f'An error occurred during update profile {e}')
     else:
         u_form = UserUpdate(instance=request.user)
         f_form = UserFile(instance=request.user.profile)

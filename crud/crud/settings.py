@@ -122,7 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 CRISPY_TEMPLATE_PACK = 'foundation-6'
 
-STORAGES = {"staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"}}
+# STORAGES = {"staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"}}
+# Combine Whitenoise with a suitable storage backend (e.g., FileSystemStorage, S3Storage) to manage both static and media files effectively.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',  # Replace 'static' with your actual static directory name
 ]
@@ -130,7 +132,7 @@ STATICFILES_DIRS = [
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # URL prefix for media files
+MEDIA_ROOT = os.path.join(BASE_DIR / 'media') # URL prefix for media files
 MEDIA_URL = '/media/' # Filesystem path where media files are stored
 
 

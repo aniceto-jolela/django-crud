@@ -17,11 +17,7 @@
     {% endif %}
 <div class="grid-x grid-margin-x">
   <div class="cell small-10 small-offset-2 medium-4 large-4 medium-offset-2 large-offset-2">
-      {% if user.profile.image == 'default.jpg' %}
-        <img class="detail-img" src="{% static 'images/default.jpg' %}" alt="user"  />
-      {% else %}
         <img class="detail-img" src={{user.profile.image.url}}  />
-      {% endif %}
   </div>
   <div class="cell small-10 medium-4 large-4">
       <br/>
