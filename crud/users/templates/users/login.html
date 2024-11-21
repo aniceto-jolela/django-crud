@@ -1,5 +1,6 @@
 {% extends 'users/base.html' %}
 {% load crispy_forms_tags %}
+{% load custom_filters %}
 {% block content %}
 <div class="login">
     <form method="POST">
@@ -7,36 +8,13 @@
         <div class="grid-container ">
             <div class="grid-x grid-padding-x">
                 <div class="small-12 medium-6 medium-offset-3 large-4 large-offset-4">
-                    <fieldset class="fieldset login-fieldset">
+                    <div>
                         <h5>Login</h5>
 
-                        {# Render each field manually instead of using crispy for the entire form #}
-                        {% for field in form %}
-                            <div class="form-group">
-                                {{ field.label_tag }}
-                                {{ field }}
-
-                                {# Check for errors and display them #}
-                                {% if field.errors %}
-                                    <span class="form-error" id="error_{{ field.auto_id }}">
-                                        {% for error in field.errors %}
-                                            {{ error }}<br>
-                                        {% endfor %}
-                                    </span>
-                                {% endif %}
-
-                                {# Optional: Display abide message if applicable #}
-                                {% if field.field.abide_msg %}
-                                    <span id="abide_error_{{ field.auto_id }}" class="form-error{% if form_show_errors and not field.errors|length == 0 %} compact{% endif %}" data-form-error-for="{{ field.id_for_label }}">
-                                        {{ field.field.abide_msg }}
-                                    </span>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-
+                        {{ form | crispy }}
                         <button class="submit button primary small" type="submit">Sign In</button>
                         <p>Don't have an account? <a href="{% url 'register' %}">Sig up</a></p>
-                    </fieldset>
+                    </div>
                 </div>
             </div>
         </div>
