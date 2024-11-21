@@ -9,6 +9,10 @@
                 <div class="small-12 medium-6 medium-offset-3 large-4 large-offset-4">
                     <fieldset class="fieldset login-fieldset">
                         <h5>Login</h5>
+                         <!-- Check if the number of fields is 1 -->
+                        {% if form|length == 1 %}
+                            <div class="single-field-message">Only one field available.</div>
+                        {% endif %}
                         {{ form | crispy }}
                         <button class="submit button primary small" type="submit">Sign In</button>
                         <p>Don't have an account? <a href="{% url 'register' %}">Sig up</a></p>
