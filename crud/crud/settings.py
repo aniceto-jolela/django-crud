@@ -125,7 +125,7 @@ CRISPY_TEMPLATE_PACK = 'foundation-6'
 # Combine Whitenoise with a suitable storage backend (e.g., FileSystemStorage, S3Storage) to manage both static and media files effectively.
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # Replace 'static' with your actual static directory name
+    BASE_DIR / 'static', # Replace 'static' with your actual static directory name
 ]
 
 STATIC_URL = "static/"
@@ -135,6 +135,12 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Filebase S3 credentials
+# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+# AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
+# AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+
 AWS_ACCESS_KEY_ID = '3D765962FED15BD4C4F3'
 AWS_SECRET_ACCESS_KEY = 'm9RpNDILAbPJehubNRjQxsKqlL9VBSCqBcyQHtxW'
 AWS_STORAGE_BUCKET_NAME = 'media'
@@ -148,8 +154,7 @@ AWS_DEFAULT_ACL = 'public-read'  # Set the default ACL to public-read
 MEDIA_URL = 'https://media.s3.filebase.com/'
 
 # Media root (this will be a remote storage location)
-MEDIA_ROOT = ''
-
+MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
