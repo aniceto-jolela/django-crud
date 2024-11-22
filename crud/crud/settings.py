@@ -122,7 +122,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 CRISPY_TEMPLATE_PACK = 'foundation-6'
 
-# STORAGES = {"staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"}}
 # Combine Whitenoise with a suitable storage backend (e.g., FileSystemStorage, S3Storage) to manage both static and media files effectively.
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
@@ -132,9 +131,24 @@ STATICFILES_DIRS = [
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-MEDIA_ROOT = os.path.join(BASE_DIR / 'media') # URL prefix for media files
-# MEDIA_ROOT = os.environ.get('MEDIA_ROOT')
-MEDIA_URL = '/media/' # Filesystem path where media files are stored
+# Set the default file storage to use Filebase (S3 compatible)
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# Filebase S3 credentials
+AWS_ACCESS_KEY_ID = '3D765962FED15BD4C4F3'
+AWS_SECRET_ACCESS_KEY = 'm9RpNDILAbPJehubNRjQxsKqlL9VBSCqBcyQHtxW'
+AWS_STORAGE_BUCKET_NAME = 'media'
+AWS_S3_ENDPOINT_URL = 'https://s3.filebase.com'  # Filebase endpoint
+AWS_S3_REGION_NAME = 'us-east-1'  # Adjust to your region
+AWS_S3_SIGNATURE_VERSION = 's3v4'  # For compatibility
+AWS_S3_FILE_OVERWRITE = False  # Prevent overwriting files by default
+AWS_DEFAULT_ACL = 'public-read'  # Set the default ACL to public-read
+
+# URL to access media files (using Filebase URL structure)
+MEDIA_URL = 'https://media.s3.filebase.com/'
+
+# Media root (this will be a remote storage location)
+MEDIA_ROOT = ''
 
 
 LOGIN_URL = 'login'
