@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-zy_^7a++id0p_@shk!y^8f)f&i%x^*fh-=(9cq&*+h!e7@aeqj"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -131,30 +131,12 @@ STATICFILES_DIRS = [
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Set the default file storage to use Filebase (S3 compatible)
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-# Filebase S3 credentials
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
-AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+# MEDIA_ROOT: This will be the path where files are uploaded to, on Render's persistent storage
+MEDIA_URL = '/media/'  # This is the URL path for accessing media files
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Local path to store media files during development
+MEDIA_ROOT = '/srv/media'
 
-#AWS_ACCESS_KEY_ID = '3D765962FED15BD4C4F3'
-#AWS_SECRET_ACCESS_KEY = 'm9RpNDILAbPJehubNRjQxsKqlL9VBSCqBcyQHtxW'
-#AWS_STORAGE_BUCKET_NAME = 'media'
-#AWS_S3_ENDPOINT_URL = 'https://s3.filebase.com'  # Filebase endpoint
-#AWS_S3_REGION_NAME = 'us-east-1'  # Adjust to your region
-#AWS_S3_SIGNATURE_VERSION = 's3v4'  # For compatibility
-#AWS_S3_FILE_OVERWRITE = False  # Prevent overwriting files by default
-#AWS_DEFAULT_ACL = 'public-read'  # Set the default ACL to public-read
-
-# URL to access media files (using Filebase URL structure)
-MEDIA_URL = 'https://media.s3.filebase.com/'
-
-# Media root (this will be a remote storage location)
-MEDIA_ROOT = 'media'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
