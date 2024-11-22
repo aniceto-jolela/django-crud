@@ -135,26 +135,26 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Filebase S3 credentials
-# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-# AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
-# AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
+AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
 
-AWS_ACCESS_KEY_ID = '3D765962FED15BD4C4F3'
-AWS_SECRET_ACCESS_KEY = 'm9RpNDILAbPJehubNRjQxsKqlL9VBSCqBcyQHtxW'
-AWS_STORAGE_BUCKET_NAME = 'media'
-AWS_S3_ENDPOINT_URL = 'https://s3.filebase.com'  # Filebase endpoint
-AWS_S3_REGION_NAME = 'us-east-1'  # Adjust to your region
-AWS_S3_SIGNATURE_VERSION = 's3v4'  # For compatibility
-AWS_S3_FILE_OVERWRITE = False  # Prevent overwriting files by default
-AWS_DEFAULT_ACL = 'public-read'  # Set the default ACL to public-read
+#AWS_ACCESS_KEY_ID = '3D765962FED15BD4C4F3'
+#AWS_SECRET_ACCESS_KEY = 'm9RpNDILAbPJehubNRjQxsKqlL9VBSCqBcyQHtxW'
+#AWS_STORAGE_BUCKET_NAME = 'media'
+#AWS_S3_ENDPOINT_URL = 'https://s3.filebase.com'  # Filebase endpoint
+#AWS_S3_REGION_NAME = 'us-east-1'  # Adjust to your region
+#AWS_S3_SIGNATURE_VERSION = 's3v4'  # For compatibility
+#AWS_S3_FILE_OVERWRITE = False  # Prevent overwriting files by default
+#AWS_DEFAULT_ACL = 'public-read'  # Set the default ACL to public-read
 
 # URL to access media files (using Filebase URL structure)
 MEDIA_URL = 'https://media.s3.filebase.com/'
 
 # Media root (this will be a remote storage location)
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = ''
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
