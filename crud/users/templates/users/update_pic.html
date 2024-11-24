@@ -1,17 +1,37 @@
 {% extends 'users/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h2>Photo</h2>
+<h2>Update Photo</h2>
 <br/>
-<div>
+<div class="grid-x grid-margin-x">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <fieldset>
-            <legend>Update the photo</legend>
-            {{form }}
-        </fieldset>
-        <button class="button primary small" type="submit">Submit</button>
+        <div class="cell small-10 small-offset-1 medium-4 large-4 medium-offset-2 large-offset-1" id="image-preview">
+            {% if profile.image %}
+                <img src="{{ profile.image.url }}" class="image-preview-in" alt="Current Profile Picture">
+            {% endif %}
+        </div>
+        <div class="cell small-4 medium-4 large-4 medium-offset-2 large-offset-1">
+            {{ form }}
+        </div>
+        <div class="cell small-10 small-offset-1 medium-4 large-4 medium-offset-2  large-offset-2">
+            <button class="submit primary button small" type="submit">Update Photo</button>
+         </div>
+
+
     </form>
-</div>
+    </div>
+<script>
+    document.getElementById('id_image').addEventListener('change', function(event) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var img = document.createElement('img');
+            img.src = event.target.result;
+            document.getElementById('image-preview').innerHTML = '';
+            document.getElementById('image-preview').appendChild(img);
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+</script>
 
 {% endblock %}

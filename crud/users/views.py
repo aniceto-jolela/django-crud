@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
-from .forms import UserRegister, UserUpdate, UserFile, Profile
+from .forms import UserRegister, UserUpdate, UserFile, Profile, UserSelectionForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import (
@@ -11,9 +11,10 @@ from django.views.generic import (
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-import os
-from django.conf import settings
+import cloudinary.uploader  # Import Cloudinary uploader
 from django.contrib.auth.views import LoginView
+from django.db import connection
+from django.apps import apps
 
 
 def home(request):
@@ -48,59 +49,83 @@ def register(request):
 def profile(request):
     if request.method == 'POST':
         u_form = UserUpdate(request.POST, instance=request.user)
-        f_form = UserFile(request.POST, request.FILES, instance=request.user.profile)
-        if u_form.is_valid() and f_form.is_valid():
+        if u_form.is_valid():
             try:
                 u_form.save()
-                f_form.save()
                 user = u_form.cleaned_data.get('username')
                 messages.success(request, f'{user} updated successfully!')
+                return redirect('users')
             except Exception as e:
                 messages.error(request, f'An error occurred during update profile {e}')
     else:
         u_form = UserUpdate(instance=request.user)
-        f_form = UserFile(instance=request.user.profile)
     context = {
             'title': 'Profile',
             'u_form': u_form,
-            'f_form': f_form
         }
     return render(request, 'users/profile.html', context)
 
 
 @login_required
 def update_pic(request, pk):
-    picture_p = get_object_or_404(Profile, user__id=pk)
-
-    if not request.user.is_superuser:
-        messages.error(request, 'You do not have permission to update this profile ')
+    user = User.objects.get(pk=pk)  # Get user by ID
+    # Check if user is the logged-in user or the superuser
+    if request.user != user and not request.user.is_superuser:
+        messages.error(request, 'You do not have permission to update this profile')
         return redirect('users')
 
-    # Allow superuser to update the profile picture
+    profile_user = user.profile  # Access profile through user relationship
+
     if request.method == 'POST':
-        form = UserFile(request.POST, request.FILES, instance=picture_p)
+        form = UserFile(request.POST, request.FILES, instance=profile_user)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'The image was successfully updated!')
-            return redirect('users')
+            # Check if a new image has been uploaded
+            if form.cleaned_data['image']:
+                form.save()  # Save the form (including the new image)
+                # Append the new image URL to the text file
+                with open('urls_images.txt', 'a') as f:
+                    f.write(f"{form.cleaned_data['image'].url}\n")
+                messages.success(request, 'The profile image was successfully updated!')
+            return redirect('users')  # Redirect to user management page
     else:
-        form = UserFile(instance=picture_p)
+        form = UserFile(instance=profile_user)
     context = {
-        'title': 'Update_pic',
+        'title': 'Update Photo',
         'form': form
     }
     return render(request, 'users/update_pic.html', context)
 
 
 @login_required
+def register_photo_with_user(request):
+    if request.method == 'POST':
+        form = UserSelectionForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile_u = form.save()
+            # Access the URL from the saved instance
+            image_url = profile_u.image.url  # Assuming 'image' is the field for the uploaded file
+
+            # Append the new image URL to the text file
+            with open('urls_images.txt', 'a') as f:
+                f.write(f"{image_url}\n")
+            messages.success(request, f'Profile photo for {profile_u.user} has been uploaded!')
+            return redirect('users')  # Redirect to user management page
+    else:
+        form = UserSelectionForm()
+    return render(request, 'users/register_photo_user.html', context={'form': form})
+
+
+@login_required
 def management(request):
     # Local file
-    profile_pics_path = os.path.join(settings.MEDIA_ROOT, 'profile_pics')
-    media_files = os.listdir(profile_pics_path) # List all files in profiles_pics
+    #profile_pics_path = os.path.join(settings.MEDIA_ROOT, 'profile_pics')
+    #media_files = os.listdir(profile_pics_path) # List all files in profiles_pics
+    with open('urls_images.txt', 'r') as f:
+        image_urls = f.readlines()
     context = {
         'title': 'Management',
-        'media_files': media_files,
-        'user_files': Profile.objects.all()
+        'user_files': Profile.objects.all(),
+        'image_urls': image_urls
     }
     return render(request, 'users/management.html', context)
 
@@ -112,26 +137,34 @@ def delete_all_data(request):
         return redirect('management')
 
     # Allow superuser to delete all data
-    # Local Files
+    # All Files
     if request.method == 'POST':
-        profile_pics_path = os.path.join(settings.MEDIA_ROOT, 'profile_pics')
-        if os.path.exists(profile_pics_path):
-            if not os.listdir(profile_pics_path):
-                messages.warning(request, 'No images found.')
-                return redirect('management')
-            for filename in os.listdir(profile_pics_path):
-                file_path = os.path.join(profile_pics_path, filename)
+        # Allow superuser to delete all data
+        if request.method == 'POST':
+            # Delete all images from Cloudinary
+            if hasattr(request.user, 'profile') and request.user.profile.image:
+                public_id = request.user.profile.image.public_id  # Get public ID from CloudinaryField
                 try:
-                    if os.path.isfile(file_path):
-                        os.remove(file_path) # Delete the file
+                    cloudinary.uploader.destroy(public_id)  # Delete image from Cloudinary
                 except Exception as e:
-                    messages.error(request, f'Error deleting {filename}: {e}')
-        else:
-            messages.error(request, 'Directory does not exist.')
+                    messages.error(request, f"Error deleting image: {e}")
+        # Clear the text file
+        with open('urls_images.txt', 'w') as f:
+            f.truncate()
+        messages.success(request, "Images deleted successfully!")
+
         # Data base
-        Profile.objects.all().delete() # Deletes all profiles
-        User.objects.all().delete() # Deletes all users
-        messages.success(request, 'All user and profile data were successfully deleted!')
+        # Get all models from installed apps
+        models = apps.get_models()
+        # Clear data and reset IDs for each model
+        with connection.cursor() as cursor:
+            for model in models:
+                # Clear all data from the table
+                cursor.execute(f"DELETE FROM {model._meta.db_table};")
+                # Reset the auto-incrementing primary key sequence based on the database engine
+                if connection.vendor == 'sqlite':
+                    cursor.execute(f"DELETE FROM sqlite_sequence WHERE name='{model._meta.db_table}';")
+        messages.success(request, 'All data has been successfully reset, and IDs are starting from 1!')
         return redirect('home')
     else:
         return render(request, 'users/delete_all_data.html')
@@ -213,6 +246,15 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return get_object_or_404(User, pk=user_id)
 
     def form_valid(self, form):
+        user = self.get_object()
+        profile = getattr(user, 'profile', None)  # Assuming a `Profile` model linked via OneToOneField
+        if profile and profile.image:  # Check if the profile has an image
+            cloudinary_id = profile.image.public_id  # Replace `public_id` with your field for Cloudinary image ID
+            if cloudinary_id:
+                # Delete the image from Cloudinary
+                cloudinary.uploader.destroy(cloudinary_id)
+
+        # Delete the user
         messages.success(self.request, 'The user has been successfully deleted!')
         return super().form_valid(form)
 

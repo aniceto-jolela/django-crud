@@ -69,13 +69,12 @@
             <div class="off-canvas-wrapper">
               <div class="off-canvas-absolute position-left" id="offCanvasLeftSplit1" data-off-canvas>
                 <!-- Your menu or Off-canvas content goes here -->
-                  <p>File view</p>
+                  <p>Files...</p>
               </div>
               <div class="off-canvas-content" style="min-height: 300px;" data-off-canvas-content>
-                   <h3>Local Files</h3>
-                    {% for file in media_files %}
-                        <img src="{{MEDIA_URL}}profile_pics/{{ file }}" alt="{{file}}" width="50" height="50" />
-                        <h5>{{ file }}</h5>
+                   <h3>All Files</h3>
+                    {% for image_url in image_urls %}
+                        <img src="{{ image_url }}" width="50" alt="Uploaded Image">
                         {% empty %}
                             <h5>No images found.</h5>
                     {% endfor %}
@@ -89,11 +88,9 @@
               </div>
               <div class="off-canvas-content" style="min-height: 300px;" data-off-canvas-content>
                     <h3>Files that are being used</h3>
-                    {% for file_ in user_files %}
-                        {% if file_.image != 'default.jpg' %}
-                            <h5>{{file_.image}}</h5>
-                            <img src={{file_.image.url}} width="50" alt="{{file_.image}}" />
-                        {% endif %}
+                    {% for photo in user_files %}
+                        <img src={{photo.image.url}} width="50" alt="#" />
+                        <p>{{photo.image}}</p>
                         {% empty %}
                             <h5>No images found.</h5>
                     {% endfor %}

@@ -31,6 +31,7 @@
 
 <a href="{% url 'register' %}" class="button small">Add</a>
 <button class="button small secondary" data-open="exampleModal2">Info</button>
+<a href="{% url 'register_photo' %}" class="button warning small">Photo</a>
     {% if messages %}
         <br/>
         {% for sms in messages %}
@@ -57,12 +58,22 @@
         {% for u in users_ %}
             <tr>
                 <td>{{ u.id }}</td>
-                <td><a href="{% url 'detail' u.id %}" class="thumbnail">
-                        <img class="table-img" src={{u.profile.image.url}} alt="user">
+                <td><a href="{% url 'detail' u.id %}" >
+                    {% if u.profile.image %}
+                        <img src={{u.profile.image.url}}  class="table-img" />
+                    {% else %}
+                        <img src="{% static 'images/default.jpg' %}" alt="Placeholder Image" class="table-img">
+                    {% endif %}
                 </a></td>
                 <td><a href="{% url 'update' u.id %}">{{ u.username }}</a> </td>
                 <td>{{ u.email }}</td>
-                <td><a href="{% url 'update_pic' u.id %}" class="clear ">Edit</a></td>
+                <td>
+                    {% if u.profile.image %}
+                        <a href="{% url 'update_pic' u.id %}" class="clear ">Edit</a>
+                    {% else %}
+                        <span>?</span>
+                    {% endif %}
+                </td>
                 <td><a href="{% url 'delete' u.id %}" class="clear button alert btn-delete">Delete</a></td>
             </tr>
         {% endfor %}

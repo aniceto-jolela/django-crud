@@ -13,9 +13,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.9.0/dist/css/foundation.min.css" crossorigin="anonymous">
     <!-- Include Motion UI -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/motion-ui@1.2.3/dist/motion-ui.min.css" />
-      {% load static %}
+    {% load static %}
         <!-- My custom CSS -->
-      <link rel="stylesheet" href="{% static 'css/style.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" >
+    {% load cloudinary %}  <!-- Load Cloudinary template tags -->
 
   </head>
 <body>
@@ -46,11 +47,12 @@
                <li>
                 <div class="avatar-circle">
                     {% if request.user == user %}
-                        {% if user.profile.image == 'default.jpg' %}
-                            <img class="avatar" src="{% static 'images/default.jpg' %}" alt="User" />
-                         {% else %}
-                            <img class="avatar" src={{user.profile.image.url}} alt="User" />
-                         {% endif %}
+                           <!-- Display the Cloudinary image -->
+                          {% if user.profile.image %}
+                            <img class="avatar" src={{user.profile.image.url}} alt="{{ user.profile.image }}'s profile image"  />
+                          {% else %}
+                            <img class="avatar" src="{% static 'images/default.jpg' %}" alt="user"  />
+                          {% endif %}
                     {% endif %}
                 </div>
               </li>

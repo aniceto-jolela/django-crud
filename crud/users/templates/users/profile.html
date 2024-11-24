@@ -17,7 +17,12 @@
     {% endif %}
 <div class="grid-x grid-margin-x">
   <div class="cell small-10 small-offset-2 medium-4 large-4 medium-offset-2 large-offset-2">
-        <img class="detail-img" src={{user.profile.image.url}}  />
+         <!-- Display the Cloudinary image -->
+        {% if user.profile.image %}
+            <img class="detail-img" src="{{ user.profile.image.url }}" alt="{{ user.username }}'s profile image" />
+        {% else %}
+            <img class="detail-img" src="{% static 'images/default.jpg' %}" alt="Default profile image" />  <!-- Fallback default image -->
+        {% endif %}
   </div>
   <div class="cell small-10 medium-4 large-4">
       <br/>
@@ -39,7 +44,6 @@
                     <fieldset class="fieldset">
                         <legend>Update the Account</legend>
                         {{u_form }}
-                        {{f_form }}
                         <button class="submit button primary  small">Submit</button>
                     </fieldset>
                 </div>

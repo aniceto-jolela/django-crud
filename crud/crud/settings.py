@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-zy_^7a++id0p_@shk!y^8f)f&i%x^*fh-=(9cq&*+h!e7@aeqj"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -35,6 +38,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'crispy_forms',
     'crispy_forms_foundation',
+    'cloudinary',
+    'cloudinary_storage',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -131,11 +136,18 @@ STATICFILES_DIRS = [
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+# Cloudinary settings (retrieve credentials from environment variables)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
 
-# MEDIA_ROOT: This will be the path where files are uploaded to, on Render's persistent storage
-MEDIA_URL = '/media/'  # This is the URL path for accessing media files
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Local path to store media files during development
-MEDIA_ROOT = '/srv/media'
+# Media settings
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# The URL where media files will be accessible
+MEDIA_URL = 'https://res.cloudinary.com/{}/'.format(os.environ.get('webuser'))
 
 
 LOGIN_URL = 'login'
