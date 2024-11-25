@@ -30,7 +30,6 @@ class UserFile(forms.ModelForm):
 
 
 class UserSelectionForm(forms.ModelForm):
-    image = CloudinaryFileField()
 
     class Meta:
         model = Profile

@@ -15,7 +15,6 @@ import cloudinary.uploader  # Import Cloudinary uploader
 from django.contrib.auth.views import LoginView
 from django.db import connection
 from django.apps import apps
-from cloudinary.uploader import destroy
 
 
 def home(request):
@@ -151,7 +150,7 @@ def delete_all_data(request):
                 public_id = image_url.strip().split('/')[-1]
 
                 try:
-                    destroy(public_id)
+                    cloudinary.uploader.destroy(public_id)
                     print(f"Deleted image with public ID: {public_id}")
                 except Exception as e:
                     messages.error(request, f"Error deleting image: {e}")
