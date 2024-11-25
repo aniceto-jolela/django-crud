@@ -147,11 +147,12 @@ def delete_all_data(request):
 
             for image_url in image_urls:
                 # Extract the public ID from the image URL (adjust based on your URL format)
-                public_id = image_url.strip().split('/')[-1]
+                cloudinary_id = image_url.strip().split('/')[-1]
 
                 try:
-                    cloudinary.uploader.destroy(public_id)
-                    print(f"Deleted image with public ID: {public_id}")
+                    if cloudinary_id:
+                        # Delete the image from Cloudinary
+                        cloudinary.uploader.destroy(cloudinary_id)
                 except Exception as e:
                     messages.error(request, f"Error deleting image: {e}")
         # Clear the text file
