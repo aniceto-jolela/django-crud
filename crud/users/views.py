@@ -143,11 +143,16 @@ def delete_all_data(request):
         if request.method == 'POST':
             # Delete all images from Cloudinary
             if hasattr(request.user, 'profile') and request.user.profile.image:
-                public_id = request.user.profile.image.public_id  # Get public ID from CloudinaryField
-                try:
-                    cloudinary.uploader.destroy(public_id)  # Delete image from Cloudinary
-                except Exception as e:
-                    messages.error(request, f"Error deleting image: {e}")
+                with open('urls_images.txt', 'r') as f:
+                    image_urls = f.readlines()
+
+                for image_url in image_urls:
+                    # Extract the public ID from the image URL (adjust based on your URL format)
+                    public_id = image_url.strip().split('/')[-1]
+                    try:
+                        cloudinary.uploader.destroy(public_id)  # Delete image from Cloudinary
+                    except Exception as e:
+                        messages.error(request, f"Error deleting image: {e}")
         # Clear the text file
         with open('urls_images.txt', 'w') as f:
             f.truncate()
