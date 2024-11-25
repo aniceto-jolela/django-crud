@@ -147,7 +147,7 @@ CLOUDINARY_STORAGE = {
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # The URL where media files will be accessible
-MEDIA_URL = 'https://res.cloudinary.com/{}/'.format(os.environ.get('webuser'))
+MEDIA_URL = 'https://res.cloudinary.com/{}/'.format(os.environ.get('CLOUDINARY_KEY_NAME'))
 
 
 LOGIN_URL = 'login'

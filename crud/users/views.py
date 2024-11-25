@@ -142,17 +142,10 @@ def delete_all_data(request):
         # Allow superuser to delete all data
         if request.method == 'POST':
             # Delete all images from Cloudinary
-            with open('urls_images.txt', 'r') as f:
-                image_urls = f.readlines()
-
-            for image_url in image_urls:
-                # Extract the public ID from the image URL (adjust based on your URL format)
-                cloudinary_id = image_url.strip().split('/')[-1]
-
+            if hasattr(request.user, 'profile') and request.user.profile.image:
+                public_id = request.user.profile.image.public_id  # Get public ID from CloudinaryField
                 try:
-                    if cloudinary_id:
-                        # Delete the image from Cloudinary
-                        cloudinary.uploader.destroy(cloudinary_id)
+                    cloudinary.uploader.destroy(public_id)  # Delete image from Cloudinary
                 except Exception as e:
                     messages.error(request, f"Error deleting image: {e}")
         # Clear the text file
