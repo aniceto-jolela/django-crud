@@ -90,4 +90,4 @@ setuptools
 - `DB` ⇢ [db.sqlite3](crud/db.sqlite3)
 - [Deploy on Render](https://github.com/aniceto-jolela/tips/blob/main/django/DJANGO-DEPLOY-RENDER.md)
 - [Render](https://render.com/)
-- [Web Site]()
+- [Web Site](https://django-crud-dh2q.onrender.com)
